@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Unit4.CollectionsLib;
 using TreeDLR;
+using System.Runtime.Remoting.Messaging;
 
-namespace _9423_questions
+namespace _9423
 {
     internal class Program
     {
@@ -29,6 +30,19 @@ namespace _9423_questions
             Console.WriteLine(IsAll2Children(BuildTree1()));
             Console.WriteLine(IsAll2Children(BuildTree2()));
 
+            //Q4
+            son = BuildTree2();
+            VisualTree<int>.DrawTree(son);
+            IncreaseSon(son);
+            VisualTree<int>.DrawTree(son);
+
+            //Q5
+            Console.WriteLine(SameValue(BuildTree5())); //T
+            Console.WriteLine(SameValue(BuildTree1())); //F
+
+            //Q6
+            Console.WriteLine(CheckIsPrimeProduct(BuildTree6())); //T
+            Console.WriteLine(IsPrimeProduct(BuildTree6(), 20)); //T
 
 
         }
@@ -38,7 +52,7 @@ namespace _9423_questions
         //       /     \                      /     \                      /     \                      /     \
         //      3       2                    2       3                   -2      3                     a       r
         //     /       / \                  / \     / \                 /  \    /  \                  / \     / \
-        //    9       6   8                4   5   6   7              -4    3  6   -8                z   d   e   w
+        //    9       6   8                2   5   6   7              -4    3  6   -8                z   d   e   w
         //     \
         //      7
 
@@ -49,6 +63,13 @@ namespace _9423_questions
         //     / \     / \
         //    1   3   5   7
 
+        // Tree 6
+        //          20
+        //         /  \
+        //        2    10
+        //            /  \
+        //           2    5
+
 
         //Q1
         //parameter - tree of ints
@@ -56,6 +77,7 @@ namespace _9423_questions
         //to each node with only one child, add a second child with value 0
         static void AddSon(BinNode<int> root)
         {
+
 
         }
 
@@ -78,7 +100,67 @@ namespace _9423_questions
 
         static bool IsAll2Children(BinNode<int> root)
         {
-            return 0;
+            return false;
+        }
+
+        //Q4
+        //parameters - tree of ints
+        //return - void
+        //change the tree - if a son's value is equal to his father, increase son's value by 1
+        //use Tree2 to test
+
+        static void IncreaseSon(BinNode<int> root)
+        {
+
+        }
+
+        //Q5
+        //parameters - tree of ints
+        //return - True, if all fathers with 2 sons are equal to the average of the 2 sons
+        //think - what should be returned for a null tree? why?
+        static bool SameValue(BinNode<int> root)
+        {
+            return false;
+        }
+
+
+        //Q6
+        //part 1:
+        //parameters - tree of ints
+        //return - True, only if
+        //1. each node is either a leaf or a father of 2 nodes
+        //2. each non-leaf node is equal to the product of its 2 sons (e.g. 21 = 3 * 7)
+        //3. each leaf is prime
+        //use: IsPrime
+        //check with Tree6
+        //part 2:
+        //the function now also gets an int. need to check conditions 1-3 above, and:
+        //4. root value = num
+        //tip: write wrapper function
+        //question - when are wrapper functions needed???
+
+
+
+
+        static bool CheckIsPrimeProduct(BinNode<int> root)
+        {
+            return false;
+        }
+
+        //part 2
+        static bool IsPrimeProduct(BinNode<int> root, int value)
+        {
+            return false;
+        }
+
+        static bool IsPrime(int n)
+        {
+            if (n < 2) return false;
+            for (int i = 2; i * i <= n; i++)
+            {
+                if (n % i == 0) return false;
+            }
+            return true;
         }
 
 
@@ -130,7 +212,7 @@ namespace _9423_questions
 
             // Left subtree
             BinNode<int> leftChild = new BinNode<int>(2);
-            leftChild.SetLeft(new BinNode<int>(4));
+            leftChild.SetLeft(new BinNode<int>(2));
             leftChild.SetRight(new BinNode<int>(5));
 
             // Right subtree
@@ -209,7 +291,40 @@ namespace _9423_questions
         //     / \     / \
         //    z   d   e   w
 
+        static BinNode<int> BuildTree5()
+        {
+            BinNode<int> root = new BinNode<int>(7);
 
+            root.SetLeft(new BinNode<int>(7));
+            root.SetRight(new BinNode<int>(7));
+
+            root.GetLeft().SetLeft(new BinNode<int>(7));
+            root.GetLeft().SetRight(new BinNode<int>(7));
+
+            root.GetRight().SetLeft(new BinNode<int>(7));
+            root.GetRight().SetRight(new BinNode<int>(7));
+
+            return root;
+        }
+
+        static BinNode<int> BuildTree6()
+        {
+            BinNode<int> root = new BinNode<int>(20);
+
+            BinNode<int> left = new BinNode<int>(2); // Prime leaf
+            BinNode<int> right = new BinNode<int>(10);
+
+            root.SetLeft(left);
+            root.SetRight(right);
+
+            BinNode<int> rightLeft = new BinNode<int>(2); // Prime leaf
+            BinNode<int> rightRight = new BinNode<int>(5); // Prime leaf
+
+            right.SetLeft(rightLeft);
+            right.SetRight(rightRight);
+
+            return root;
+        }
 
     }
 }
